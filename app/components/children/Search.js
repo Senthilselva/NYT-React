@@ -1,5 +1,6 @@
 //import react 
 import React from "react";
+var axios = require("axios");
 
 //define class
 export class Search extends React.Component {
@@ -18,7 +19,7 @@ export class Search extends React.Component {
 
   handleChange(event) {
     var newId = event.target.id;
-    console.log(event.target.id +"   "+event.target.value);
+    //console.log(event.target.id +"   "+event.target.value);
     switch (newId){
     	case "topic":
     		this.setState({ topic : event.target.value } );
@@ -27,16 +28,18 @@ export class Search extends React.Component {
     		this.setState({ startDate : event.target.value } );
     	case "endDate":
     		this.setState({ endDate : event.target.value } );
-
     }
     this.setState({ newid : event.target.value } );
     console.log(this.state)
+    
   }
 
   handleSubmit(event) {
     event.preventDefault();
     console.log("CLICK");
     console.log(this.state.topic);
+    console.log(this.state.startDate);
+    console.log(this.state.endDate);
   }
 
 	//render the function
@@ -52,9 +55,10 @@ export class Search extends React.Component {
                 			required />
 					<input type="date" id= "endDate" 
 						value={this.state.endDate} 
-						onChange={this.handleChange} required/>
+						onChange={this.handleChange}
+						placeholder={Date.now()} required/>
 
-					<button type = "submit"> Search </button>
+					<button type="submit"> Search </button>
 			</form>
 	    );
 	}//render

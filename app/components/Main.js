@@ -12,6 +12,8 @@ import { Search } from "./children/Search";
 
 //define class
 export class Main extends React.Component {
+
+	
  
  render() {
     return (
