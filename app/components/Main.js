@@ -1,20 +1,16 @@
 import React from "react";
-import { render } from "react-dom";
+// import { render } from "react-dom";
 
 // Import sub-components
-import { Header } from "./children/Header";
-import { Search } from "./children/Search";
-//import Result from "./children/Result";
+import Header  from "./children/Header";
+import Search from "./children/Search";
 //import Saved from "./children/Saved";
 
 // Helper Function
 //import helpers from "./utils/Helpers";
 
 //define class
-export class Main extends React.Component {
-
-	
- 
+class Main extends React.Component {
  render() {
     return (
       <div>

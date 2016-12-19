@@ -20,3 +20,6 @@ export class Header extends React.Component {
 	}//render
 }//React.Component
 
+// We export the API helper
+module.exports = Header;
+

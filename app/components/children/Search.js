@@ -1,65 +1,60 @@
 //import react 
 import React from "react";
-var axios = require("axios");
+//var axios = require("axios");
+
+import Query from "./Query";
+//import { Result } from "Result";
+
+// Import sub-components
+import helper from "../utils/Helpers";
 
 //define class
-export class Search extends React.Component {
+class Search extends React.Component {
 	constructor(props) {
     super(props);
 
     this.state = {
-      topic:"",
-      startDate: Date.now(),
-      endDate: Date.now()
+      searchTopic:"",
+      searchStartDate: Date.now(),
+      searchEndDate: Date.now(),
+      results:""
     };
 
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.setQuery = this.setQuery.bind(this);
   }
 
-  handleChange(event) {
-    var newId = event.target.id;
-    //console.log(event.target.id +"   "+event.target.value);
-    switch (newId){
-    	case "topic":
-    		this.setState({ topic : event.target.value } );
-    		break;
-    	case "startDate":
-    		this.setState({ startDate : event.target.value } );
-    	case "endDate":
-    		this.setState({ endDate : event.target.value } );
-    }
-    this.setState({ newid : event.target.value } );
-    console.log(this.state)
-    
-  }
+componentDidUpdate(prevProps, prevState) {
 
-  handleSubmit(event) {
-    event.preventDefault();
-    console.log("CLICK");
-    console.log(this.state.topic);
-    console.log(this.state.startDate);
-    console.log(this.state.endDate);
-  }
+      helper.runQuery(this.state.searchTopic, this.state.searchStartDate, this.state.searchEndDate)
+      .then((data) => {
+        if (data !== this.state.results) {
+          console.log(data);
+          this.setState({ results: data });
+        }
+      });
 
+}
+
+
+  setQuery(topic,startDate,endDate) {
+    this.setState({
+      searchTopic:topic,
+      searchStartDate: startDate,
+      searchEndDate: endDate
+    });
+  }
 	//render the function
 	render() {
 	    return (	    	
-  			<form onClick={this.handleSubmit}>
-					<input type="text" id="topic" 
-						value={this.state.topic} onChange={this.handleChange}
-							required />
-					<input type="date" id="startDate" 
-						value={this.state.startDate}
-                		onChange={this.handleChange}
-                			required />
-					<input type="date" id= "endDate" 
-						value={this.state.endDate} 
-						onChange={this.handleChange}
-						placeholder={Date.now()} required/>
-
-					<button type="submit"> Search </button>
-			</form>
-	    );
+  			<div>
+        hbvkjwfhbvjwfhlefllr
+        <Query setQuery = {this.setQuery}/> 
+          {/* <Result />*/}
+        </div> 
+        )
 	}//render
 }//React.Component
+
+
+// Export the componen back for use in other files
+export default Search;
