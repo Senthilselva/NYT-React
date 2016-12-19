@@ -3,7 +3,7 @@ import React from "react";
 //var axios = require("axios");
 
 import Query from "./Query";
-//import { Result } from "Result";
+import Results from "./Result";
 
 // Import sub-components
 import helper from "../utils/Helpers";
@@ -17,7 +17,7 @@ class Search extends React.Component {
       searchTopic:"",
       searchStartDate: Date.now(),
       searchEndDate: Date.now(),
-      results:""
+      results:[]
     };
 
     this.setQuery = this.setQuery.bind(this);
@@ -26,11 +26,10 @@ class Search extends React.Component {
 componentDidUpdate(prevProps, prevState) {
 
       helper.runQuery(this.state.searchTopic, this.state.searchStartDate, this.state.searchEndDate)
-      .then((data) => {
-        if (data !== this.state.results) {
-          console.log(data);
-          this.setState({ results: data });
-        }
+      .then((response) => {
+          console.log(response)
+          this.setState({ results: response.docs });
+          console.log(("results:"+this.state.results))
       });
 
 }
@@ -45,13 +44,12 @@ componentDidUpdate(prevProps, prevState) {
   }
 	//render the function
 	render() {
-	    return (	    	
-  			<div>
-        hbvkjwfhbvjwfhlefllr
+    return (	    	
+  		<div>
         <Query setQuery = {this.setQuery}/> 
-          {/* <Result />*/}
-        </div> 
-        )
+        <Results results = {this.state.results}/>
+      </div> 
+    )
 	}//render
 }//React.Component
 

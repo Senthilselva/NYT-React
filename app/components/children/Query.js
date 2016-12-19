@@ -1,9 +1,6 @@
  //import react 
 import React from "react";
 
-
-
-
 //define class
 class Query extends React.Component {
 	
@@ -12,8 +9,8 @@ class Query extends React.Component {
 
 	    this.state = {
 	      topic:"",
-	      startDate: Date.now(),
-	      endDate: Date.now(),
+	      startDate:"",
+	      endDate: ""
 	    };  
 	 	this.handleChange = this.handleChange.bind(this);
 	    this.handleSubmit = this.handleSubmit.bind(this);
@@ -36,16 +33,16 @@ class Query extends React.Component {
     		this.setState({ endDate : event.target.value } );
     }
     this.setState({ newid : event.target.value } );
-    console.log(this.state)
+    // console.log(this.state)
     
   }
 
   handleSubmit(event) {
     event.preventDefault();
     console.log("CLICK");
-    console.log(this.state.topic);
-    console.log(this.state.startDate);
-    console.log(this.state.endDate);
+    // console.log(this.state.topic);
+    // console.log(this.state.startDate);
+    // console.log(this.state.endDate);
     this.props.setQuery(this.state.topic, this.state.startDate, this.state.endDate);
   }
 
