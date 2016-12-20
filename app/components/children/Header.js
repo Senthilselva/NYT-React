@@ -11,7 +11,7 @@ export class Header extends React.Component {
     				<div className="container text-center">
        					<div className = "navbar-header">
        						<h3> New York Times Article Scrubber</h3>
-       					  	<h4> Rock Paper Siccors</h4>
+       					  	<h4></h4>
        					</div>
        				</div>
   				</nav>

@@ -26,12 +26,14 @@ class Search extends React.Component {
 
 componentDidUpdate(prevProps, prevState) {
 
-      helper.runQuery(this.state.searchTopic, this.state.searchStartDate, this.state.searchEndDate)
+  if(this.state.searchTopic != prevState.searchTopic){
+    helper.runQuery(this.state.searchTopic, this.state.searchStartDate, this.state.searchEndDate)
       .then((response) => {
-          console.log(response)
-          this.setState({ results: response.docs });
-          console.log(("results:"+this.state.results))
+        console.log(response)
+        this.setState({ results: response.docs });
+        console.log(("results:"+this.state.results))
       });
+  }
 
 }
 

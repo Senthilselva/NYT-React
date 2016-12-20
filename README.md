@@ -8,6 +8,6 @@ Asingle page application using React and Mongoose- api-Call to New York Times ap
 	1. RUN node server.js
 	2. Open chrome and localhost:3000/
 	This is also uploaded on Heroku: 
-	    //https://---------------.herokuapp.com/burgers
+	    //https://---------------
 ## Technologies
 NodeJS, Express, React, Mongoose, Rest API

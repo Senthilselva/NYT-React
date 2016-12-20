@@ -22160,11 +22160,7 @@
 	                null,
 	                " New York Times Article Scrubber"
 	              ),
-	              _react2.default.createElement(
-	                "h4",
-	                null,
-	                " Rock Paper Siccors"
-	              )
+	              _react2.default.createElement("h4", null)
 	            )
 	          )
 	        )
@@ -22251,11 +22247,13 @@
 	    value: function componentDidUpdate(prevProps, prevState) {
 	      var _this2 = this;
 	
-	      _Helpers2.default.runQuery(this.state.searchTopic, this.state.searchStartDate, this.state.searchEndDate).then(function (response) {
-	        console.log(response);
-	        _this2.setState({ results: response.docs });
-	        console.log("results:" + _this2.state.results);
-	      });
+	      if (this.state.searchTopic != prevState.searchTopic) {
+	        _Helpers2.default.runQuery(this.state.searchTopic, this.state.searchStartDate, this.state.searchEndDate).then(function (response) {
+	          console.log(response);
+	          _this2.setState({ results: response.docs });
+	          console.log("results:" + _this2.state.results);
+	        });
+	      }
 	    }
 	  }, {
 	    key: "setQuery",
