@@ -22053,25 +22053,40 @@
 	// Helper Function
 	//import helpers from "./utils/Helpers";
 	
+	
 	//define class
 	var Main = function (_React$Component) {
 	  _inherits(Main, _React$Component);
 	
-	  function Main() {
+	  function Main(props) {
 	    _classCallCheck(this, Main);
 	
-	    return _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).apply(this, arguments));
+	    var _this = _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).call(this, props));
+	
+	    _this.state = {
+	      isDatabaseChanged: false
+	    };
+	
+	    _this.databaseChanged = _this.databaseChanged.bind(_this);
+	
+	    return _this;
 	  }
 	
 	  _createClass(Main, [{
+	    key: "databaseChanged",
+	    value: function databaseChanged() {
+	      var isChange = -this.state.isDatabaseChanged;
+	      this.setState({ isDatabaseChanged: isChange });
+	    }
+	  }, {
 	    key: "render",
 	    value: function render() {
 	      return _react2.default.createElement(
 	        "div",
 	        null,
 	        _react2.default.createElement(_Header2.default, null),
-	        _react2.default.createElement(_Search2.default, null),
-	        _react2.default.createElement(_Saved2.default, null)
+	        _react2.default.createElement(_Search2.default, { databaseChanged: this.databaseChanged }),
+	        _react2.default.createElement(_Saved2.default, { isDatabaseChanged: this.state.isDatabaseChanged })
 	      );
 	    }
 	  }]);
@@ -22254,7 +22269,6 @@
 	  }, {
 	    key: "updateDataBase",
 	    value: function updateDataBase(saveId) {
-	
 	      var topic = this.state.results[saveId].headline.main;
 	      var url = this.state.results[saveId].web_url;
 	      var pub_date = this.state.results[saveId].pub_date;
@@ -22262,7 +22276,13 @@
 	
 	      _Helpers2.default.postToDatabase(topic, url, pub_date).then(function (data) {
 	        console.log(data);
-	      });
+	        console.log(saveId);
+	        this.props.databaseChanged();
+	        //remove the one element from the result array
+	        var tempResult = this.state.results;
+	        tempResult.splice(saveId, 1);
+	        this.setState({ result: tempResult });
+	      }.bind(this));
 	    }
 	
 	    //render the function
@@ -22359,9 +22379,6 @@
 	    value: function handleSubmit(event) {
 	      event.preventDefault();
 	      console.log("CLICK");
-	      // console.log(this.state.topic);
-	      // console.log(this.state.startDate);
-	      // console.log(this.state.endDate);
 	      this.props.setQuery(this.state.topic, this.state.startDate, this.state.endDate);
 	    }
 	  }, {
@@ -22451,8 +22468,8 @@
 	    key: "handleChange",
 	    value: function handleChange(event) {
 	      console.log("handle Change");
-	      console.log(event.target.id);
-	      var idToSave = event.target.id;
+	      console.log(event.target.value);
+	      var idToSave = event.target.value;
 	      this.props.updateDataBase(idToSave);
 	    }
 	  }, {
@@ -22489,7 +22506,7 @@
 	              _react2.default.createElement(
 	                "button",
 	                {
-	                  className: "btn btn-primary", type: "submit", id: i,
+	                  className: "btn btn-primary", type: "submit", value: i,
 	                  onClick: that.handleChange },
 	                "Save"
 	              )
@@ -24180,12 +24197,22 @@
 	  _createClass(Results, [{
 	    key: "componentDidMount",
 	    value: function componentDidMount() {
-	      var that = this;
 	      // Get the latest history.
 	      _Helpers2.default.getSaved().then(function (response) {
 	        console.log(response);
-	        that.setState({ saved: response.data });
-	      });
+	        this.setState({ saved: response.data });
+	      }.bind(this));
+	    }
+	
+	    //Will activate if new props come in
+	
+	  }, {
+	    key: "componentWillReceiveProps",
+	    value: function componentWillReceiveProps(nextProps) {
+	      _Helpers2.default.getSaved().then(function (response) {
+	        console.log(response);
+	        this.setState({ saved: response.data });
+	      }.bind(this));
 	    }
 	  }, {
 	    key: "handleChange",
@@ -24193,14 +24220,13 @@
 	      console.log("handle Change");
 	      console.log(event.target.id);
 	      var idToDelete = event.target.id;
-	      // console.log(JSON.stringify(this.props.results[idToSave]));
-	      // var topic = this.props.results[idToSave].headline.main;
-	      // var url = this.props.results[idToSave].web_url;
-	      // var pub_date = this.props.results[idToSave].pub_date;
-	      // console.log("Topic: " +topic + "url"+ url +"   " +pub_date )
-	
+	      var that = this;
 	      _Helpers2.default.deleteFromDatabase(idToDelete).then(function () {
-	        console.log(data);
+	        console.log("deleted");
+	        _Helpers2.default.getSaved().then(function (response) {
+	          console.log(response);
+	          that.setState({ saved: response.data });
+	        });
 	      });
 	      //this.props.updateDataBase(idToSave)
 	    }

@@ -9,14 +9,31 @@ import Saved from "./children/Saved";
 // Helper Function
 //import helpers from "./utils/Helpers";
 
+
 //define class
 class Main extends React.Component {
+constructor(props) {
+	super(props);
+
+    this.state = {
+    	isDatabaseChanged:false
+    };
+
+    this.databaseChanged = this.databaseChanged.bind(this);
+
+}
+
+	databaseChanged() {
+		var isChange = -(this.state.isDatabaseChanged);
+		this.setState({ isDatabaseChanged : isChange });
+	}
+
  render() {
     return (
       <div>
       	<Header />
-      	<Search />
-      	<Saved />
+      	<Search databaseChanged = {this.databaseChanged}/>
+      	<Saved isDatabaseChanged ={this.state.isDatabaseChanged}/>
       </div>
     );
   }

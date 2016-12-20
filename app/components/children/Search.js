@@ -45,15 +45,21 @@ componentDidUpdate(prevProps, prevState) {
   }
 
   updateDataBase(saveId){
-    
     var topic = this.state.results[saveId].headline.main;
     var url = this.state.results[saveId].web_url;
     var pub_date = this.state.results[saveId].pub_date;
     console.log("Topic: " +topic + "url"+ url +"   " +pub_date )
 
     helper.postToDatabase(topic,url,pub_date).then(function(data){
-       console.log(data)
-     });
+       console.log(data);
+       console.log(saveId);
+       this.props.databaseChanged();
+       //remove the one element from the result array
+       var tempResult = this.state.results;
+       tempResult.splice(saveId,1);
+       this.setState({ result : tempResult})
+
+    }.bind(this))
 
   }
 

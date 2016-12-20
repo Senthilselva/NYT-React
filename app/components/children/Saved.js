@@ -20,26 +20,35 @@ class Results extends React.Component {
 
   // The moment the page renders get the History
   componentDidMount() {
-    var that =this;
     // Get the latest history.
     helpers.getSaved().then(function(response) {
       console.log(response);
-      that.setState({ saved: response.data });
-  
-    });
+      this.setState({ saved: response.data });
+    }.bind(this));
   }
 
+  //Will activate if new props come in
+  componentWillReceiveProps(nextProps) {
+    helpers.getSaved().then(function(response) {
+      console.log(response);
+      this.setState({ saved: response.data });
+    }.bind(this));
+
+  }
 
   handleChange(event) {
     console.log("handle Change"); 
     console.log(event.target.id);
     var idToDelete = event.target.id;
-
-     helpers.deleteFromDatabase(idToDelete).then(function(){
-       console.log(data)
-     });
+    var that = this;
+    helpers.deleteFromDatabase(idToDelete).then(function(){
+      console.log("deleted")
+      helpers.getSaved().then(function(response) {
+        console.log(response);
+        that.setState({ saved: response.data });
+      });
+    });
     //this.props.updateDataBase(idToSave)
-
   }
 
 render() {
