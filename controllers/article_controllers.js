@@ -3,7 +3,7 @@
 var express = require('express');
 var path = require('path');
 
-var Article = require("../models/Article.js");
+var Article = require("../models/article.js");
 
 
 var router  = express.Router();
