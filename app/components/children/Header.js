@@ -5,17 +5,10 @@ import React from "react";
 export class Header extends React.Component {
 	//render the function
 	render() {
-	    return (	    	
-  			<header>
-  				<nav className="navbar navbar-default">
-    				<div className="container text-center">
-       					<div className = "navbar-header">
-       						<h3> New York Times Article Scrubber</h3>
-       					  	<h4></h4>
-       					</div>
-       				</div>
-  				</nav>
-			</header>
+	    return (	
+        <div class="jumbotron">
+          <h1 class="text-center"><strong><i class="fa fa-newspaper-o"></i> New York Times Search</strong></h1>
+        </div>
 	    );
 	}//render
 }//React.Component

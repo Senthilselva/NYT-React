@@ -20,26 +20,33 @@ class Results extends React.Component {
 render() {
   var that = this;
 	   return (
-      <div className="panel panel-default">
-        <div className="panel-heading">
-          <h3 className="panel-title text-center">Search Result</h3>
-        </div>
-        <div className="panel-body text-center">
+      <div className="row">
+        <div className="col-sm-12">
+          <br/>
+            <div className="panel panel-primary">
+              <div className="panel-heading">
+                <h3 className="panel-title"><strong><i className="fa fa-table"></i>Articles</strong></h3>
+              </div>
 
-          {/* Here we use a map function to loop through an array in JSX */}
-          {this.props.results.map(function(search, i){
-            return (
-              <p key={i}> {search.web_url} 
-                    <br/> {search.headline.main}
-                    <br/> {search.pub_date} 
-                    <button 
-                    className="btn btn-primary" type="submit" value={i}
-                    onClick = { that.handleChange }>Save</button>
-              </p>
-            );
-          })}
+              <div className="panel-body" id="wellSection">
+                {/* Here we use a map function to loop through an array in JSX */}
+                {this.props.results.map(function(search, i){
+                  return(
+                    <div className="well" key={i}>
+                      <h3> {search.headline.main} </h3>
+                      <h5> Url : {search.web_url} </h5>
+                      <h6> Date published: {search.pub_date} </h6>
+                      <button 
+                        className="btn btn-primary" type="submit" value={i}
+                        onClick = { that.handleChange }>Save</button>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
+
     );
 	}//render
 

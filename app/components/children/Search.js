@@ -30,7 +30,7 @@ componentDidUpdate(prevProps, prevState) {
     helper.runQuery(this.state.searchTopic, this.state.searchStartDate, this.state.searchEndDate)
       .then((response) => {
         console.log(response)
-        this.setState({ results: response.docs });
+        this.setState({ results: response });
         console.log(("results:"+this.state.results))
       });
   }

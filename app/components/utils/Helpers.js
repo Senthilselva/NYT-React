@@ -8,12 +8,32 @@ var queryUrlBase = "https://api.nytimes.com/svc/search/v2/articlesearch.json?api
 
 //Testing code
 const helpers = {
-  runQuery: (topic,b,c) => {
+  runQuery: (topic,startYear,endYear) => {
     //topic = "obama"
+    topic=topic.trim();
+    startYear=startYear.trim();
+    endYear=endYear.trim();
+
     var queryURL = queryUrlBase+topic;
+
+    // If the user provides a startYear -- the startYear will be included in the queryURL
+    if (parseInt(startYear)) {
+      queryURL = queryURL + "&begin_date=" + startYear + "0101";
+    }
+
+    // If the user provides a startYear -- the endYear will be included in the queryURL
+    if (parseInt(endYear)) {
+      queryURL = queryURL + "&end_date=" + endYear + "0101";
+    }
+
       return axios.get(queryURL).then((response) => {
       console.log("this")
-    return response.data.response;
+      var docArr=[];
+      for(var i =0; i <5; i++){
+          docArr.push(response.data.response.docs[i])
+      }
+    // return response.data.response;
+    return docArr;
     });
   },
 

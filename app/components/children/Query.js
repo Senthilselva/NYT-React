@@ -47,21 +47,49 @@ class Query extends React.Component {
 
 render() {
 	    return (	    	
-  			<form onClick={this.handleSubmit}>
-					<input type="text" id="topic" 
+  			<div className="row">
+		<div className="col-sm-12">
+		<br/>
+			<div className="panel panel-primary">
+				<div className="panel-heading">
+					<h3 className="panel-title"><strong><i className="fa  fa-list-alt"></i>Search </strong></h3>
+				</div>
+				<div className="panel-body">
+					<form onClick={this.handleSubmit}>
+
+					  <div className="form-group">
+					    <label>Search Term:</label>
+					    <input type="text" id="topic" 
 						value={this.state.topic} onChange={this.handleChange}
-							required /> <br/>
-					<input type="date" id="startDate" 
+							required />
+					  </div>
+
+					  <div className="form-group">
+					    <label>Start Year (Optional):</label>
+					    <input type="text" id="startDate" 
 						value={this.state.startDate}
                 		onChange={this.handleChange}
-                			required /> <br/>
-					<input type="date" id= "endDate" 
+                			required />
+					  </div>
+
+				  
+					  <div className="form-group">
+					    <label>End Year (Optional):</label>
+					    <input type="text" id= "endDate" 
 						value={this.state.endDate} 
 						onChange={this.handleChange}
-						placeholder={Date.now()} required/> <br/>
+						required/>
+					  </div>
 
-					<button type="submit"> Search </button>
-			</form>
+					  
+					  <button type="submit" class="btn btn-default" id="runSearch"><i className="fa fa-search"></i> Search</button>
+
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	    );
 	}//render
 
