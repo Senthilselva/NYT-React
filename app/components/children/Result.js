@@ -12,8 +12,8 @@ class Results extends React.Component {
 
   handleChange(event) {
     console.log("handle Change"); 
-    console.log(event.target.id);
-    var idToSave = event.target.id;
+    console.log(event.target.value);
+    var idToSave = event.target.value;
     this.props.updateDataBase(idToSave);
   }
 
@@ -33,7 +33,7 @@ render() {
                     <br/> {search.headline.main}
                     <br/> {search.pub_date} 
                     <button 
-                    className="btn btn-primary" type="submit" id={i}
+                    className="btn btn-primary" type="submit" value={i}
                     onClick = { that.handleChange }>Save</button>
               </p>
             );

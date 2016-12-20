@@ -40,9 +40,6 @@ class Query extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
     console.log("CLICK");
-    // console.log(this.state.topic);
-    // console.log(this.state.startDate);
-    // console.log(this.state.endDate);
     this.props.setQuery(this.state.topic, this.state.startDate, this.state.endDate);
   }
 
