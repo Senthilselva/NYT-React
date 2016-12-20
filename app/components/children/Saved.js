@@ -71,8 +71,8 @@ render() {
                       <h5> Url : {search.url} </h5>
                       <h6> Date published: {search.pub_date} </h6>
                       <button 
-                        className="btn btn-primary" type="submit" value={i}
-                        onClick = { that.handleChange }>Save</button>
+                        className="btn btn-primary" type="submit" id={search._id}
+                        onClick = { that.handleChange }>Delete</button>
                     </div>
                   );
                 })}
