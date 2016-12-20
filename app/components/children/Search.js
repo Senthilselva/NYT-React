@@ -21,6 +21,7 @@ class Search extends React.Component {
     };
 
     this.setQuery = this.setQuery.bind(this);
+    this.updateDataBase = this.updateDataBase.bind(this);
   }
 
 componentDidUpdate(prevProps, prevState) {
@@ -42,12 +43,28 @@ componentDidUpdate(prevProps, prevState) {
       searchEndDate: endDate
     });
   }
+
+  updateDataBase(saveId){
+    
+    var topic = this.state.results[saveId].headline.main;
+    var url = this.state.results[saveId].web_url;
+    var pub_date = this.state.results[saveId].pub_date;
+    console.log("Topic: " +topic + "url"+ url +"   " +pub_date )
+
+    helper.postToDatabase(topic,url,pub_date).then(function(data){
+       console.log(data)
+     });
+
+  }
+
+
 	//render the function
 	render() {
     return (	    	
   		<div>
         <Query setQuery = {this.setQuery}/> 
-        <Results results = {this.state.results}/>
+        <Results results = {this.state.results}
+                 updateDataBase = {this.updateDataBase}/>
       </div> 
     )
 	}//render

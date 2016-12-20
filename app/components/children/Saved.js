@@ -1,0 +1,75 @@
+//import react 
+import React from "react";
+
+// Import sub-components
+import helpers from "../utils/Helpers";
+
+//define class
+class Results extends React.Component {
+	
+	constructor(props) {
+    super(props);
+       
+    this.state = {
+      saved : []
+    },
+
+     this.handleChange = this.handleChange.bind(this);
+     this.componentDidMount =this.componentDidMount.bind(this);
+  }
+
+  // The moment the page renders get the History
+  componentDidMount() {
+    var that =this;
+    // Get the latest history.
+    helpers.getSaved().then(function(response) {
+      console.log(response);
+      that.setState({ saved: response.data });
+  
+    });
+  }
+
+
+  handleChange(event) {
+    console.log("handle Change"); 
+    console.log(event.target.id);
+    var idToDelete = event.target.id;
+
+     helpers.deleteFromDatabase(idToDelete).then(function(){
+       console.log(data)
+     });
+    //this.props.updateDataBase(idToSave)
+
+  }
+
+render() {
+  var that = this;
+	   return (
+      <div className="panel panel-default">
+        <div className="panel-heading">
+          <h3 className="panel-title text-center">Search History</h3>
+        </div>
+        <div className="panel-body text-center">
+
+          {/* Here we use a map function to loop through an array in JSX */}
+          {this.state.saved.map(function(search, i){
+            return (
+              <p key={i}> {search.url} 
+                    <br/> {search.topic}
+                    <br/> {search.pub_date} 
+                    <button 
+                    className="btn btn-primary" type="submit" id={search._id}
+                    onClick = { that.handleChange }>Delete</button>
+              </p>
+            );
+          })}
+        </div>
+      </div>
+    );
+	}//render
+
+}//React.Component
+
+
+// Export the componen back for use in other files
+export default Results;

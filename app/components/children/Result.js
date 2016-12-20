@@ -7,26 +7,22 @@ class Results extends React.Component {
 	constructor(props) {
       super(props);
 
-      this.state = {
-        topic:"",
-        startDate:"",
-        endDate: ""
-      };  
      this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange(event) {
-    console.log("handle Change");  
+    console.log("handle Change"); 
+    console.log(event.target.id);
+    var idToSave = event.target.id;
+    this.props.updateDataBase(idToSave);
   }
-
-
 
 render() {
   var that = this;
 	   return (
       <div className="panel panel-default">
         <div className="panel-heading">
-          <h3 className="panel-title text-center">Search History</h3>
+          <h3 className="panel-title text-center">Search Result</h3>
         </div>
         <div className="panel-body text-center">
 

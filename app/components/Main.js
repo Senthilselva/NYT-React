@@ -4,7 +4,7 @@ import React from "react";
 // Import sub-components
 import Header  from "./children/Header";
 import Search from "./children/Search";
-//import Saved from "./children/Saved";
+import Saved from "./children/Saved";
 
 // Helper Function
 //import helpers from "./utils/Helpers";
@@ -16,6 +16,7 @@ class Main extends React.Component {
       <div>
       	<Header />
       	<Search />
+      	<Saved />
       </div>
     );
   }

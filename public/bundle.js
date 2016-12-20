@@ -22034,6 +22034,10 @@
 	
 	var _Search2 = _interopRequireDefault(_Search);
 	
+	var _Saved = __webpack_require__(/*! ./children/Saved */ 209);
+	
+	var _Saved2 = _interopRequireDefault(_Saved);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -22045,8 +22049,6 @@
 	
 	// Import sub-components
 	
-	
-	//import Saved from "./children/Saved";
 	
 	// Helper Function
 	//import helpers from "./utils/Helpers";
@@ -22068,7 +22070,8 @@
 	        "div",
 	        null,
 	        _react2.default.createElement(_Header2.default, null),
-	        _react2.default.createElement(_Search2.default, null)
+	        _react2.default.createElement(_Search2.default, null),
+	        _react2.default.createElement(_Saved2.default, null)
 	      );
 	    }
 	  }]);
@@ -22224,6 +22227,7 @@
 	    };
 	
 	    _this.setQuery = _this.setQuery.bind(_this);
+	    _this.updateDataBase = _this.updateDataBase.bind(_this);
 	    return _this;
 	  }
 	
@@ -22247,6 +22251,20 @@
 	        searchEndDate: endDate
 	      });
 	    }
+	  }, {
+	    key: "updateDataBase",
+	    value: function updateDataBase(saveId) {
+	
+	      var topic = this.state.results[saveId].headline.main;
+	      var url = this.state.results[saveId].web_url;
+	      var pub_date = this.state.results[saveId].pub_date;
+	      console.log("Topic: " + topic + "url" + url + "   " + pub_date);
+	
+	      _Helpers2.default.postToDatabase(topic, url, pub_date).then(function (data) {
+	        console.log(data);
+	      });
+	    }
+	
 	    //render the function
 	
 	  }, {
@@ -22256,7 +22274,8 @@
 	        "div",
 	        null,
 	        _react2.default.createElement(_Query2.default, { setQuery: this.setQuery }),
-	        _react2.default.createElement(_Result2.default, { results: this.state.results })
+	        _react2.default.createElement(_Result2.default, { results: this.state.results,
+	          updateDataBase: this.updateDataBase })
 	      );
 	    } //render
 	
@@ -22424,11 +22443,6 @@
 	
 	    var _this = _possibleConstructorReturn(this, (Results.__proto__ || Object.getPrototypeOf(Results)).call(this, props));
 	
-	    _this.state = {
-	      topic: "",
-	      startDate: "",
-	      endDate: ""
-	    };
 	    _this.handleChange = _this.handleChange.bind(_this);
 	    return _this;
 	  }
@@ -22437,6 +22451,9 @@
 	    key: "handleChange",
 	    value: function handleChange(event) {
 	      console.log("handle Change");
+	      console.log(event.target.id);
+	      var idToSave = event.target.id;
+	      this.props.updateDataBase(idToSave);
 	    }
 	  }, {
 	    key: "render",
@@ -22451,7 +22468,7 @@
 	          _react2.default.createElement(
 	            "h3",
 	            { className: "panel-title text-center" },
-	            "Search History"
+	            "Search Result"
 	          )
 	        ),
 	        _react2.default.createElement(
@@ -22511,55 +22528,36 @@
 	//Testing code
 	var nytApiKey = "9f84f8dcc16c46789413d9ccd53f1ea1"; // Include the axios package for performing HTTP requests (promise based alternative to request)
 	
-	
 	var queryUrlBase = "https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=" + nytApiKey + "&fl=pub_date,headline,web_url&q=";
 	
-	// queryURL = queryURL+"?qs="+"obama"+"&begin_date="+"20001231"+"&end_date=+"
-	// queryURL = queryURL+ "20170101" + "&fl=pub_date,headline,web_url"+ "page="+0;
-	// queryURL = queryURL+"&api-key="+"9f84f8dcc16c46789413d9ccd53f1ea1";
-	
-	// queryURL = "https://api.nytimes.com/svc/search/v2/articlesearch.json?qs=obama&api-key=9f84f8dcc16c46789413d9ccd53f1ea1"
-	// axios.get(queryURL).then(function(response) {
-	//   console.log(JSON.stringify(response));
-	
-	// });
-	
 	//Testing code
-	
 	var helpers = {
-	
 	  runQuery: function runQuery(topic, b, c) {
-	    topic = "obama";
+	    //topic = "obama"
 	    var queryURL = queryUrlBase + topic;
-	
-	    // console.log(queryURL)
 	    return _axios2.default.get(queryURL).then(function (response) {
-	      // console.log(JSON.stringify(response));
-	      //console.log(response.data.response);
 	      console.log("this");
 	      return response.data.response;
 	    });
+	  },
+	
+	  postToDatabase: function postToDatabase(title, url, pub_date) {
+	    return _axios2.default.post("/api/saved", { title: title,
+	      url: url,
+	      pub_date: pub_date });
+	  },
+	  deleteFromDatabase: function deleteFromDatabase(id) {
+	    return _axios2.default.delete("/api/saved/" + id);
+	  },
+	
+	  getSaved: function getSaved() {
+	    return _axios2.default.get("/api/saved");
 	  }
+	
 	};
 	
 	// We export the API helper
 	module.exports = helpers;
-	
-	// request.get({
-	//    url: "https://api.nytimes.com/svc/search/v2/articlesearch.json",
-	//     qs: {
-	//       'api-key': "9f84f8dcc16c46789413d9ccd53f1ea1",
-	//       'q': "obama",
-	//       'begin_date': "20001231",
-	//       'end_date': "20170101",
-	//       'fl': "pub_date,headline,web_url",
-	//       'page': 0
-	//     },
-	//   }, function(err, response, body) {
-	//     body = JSON.parse(body);
-	//     console.log(body);
-	// });
-	// } //run query
 
 /***/ },
 /* 184 */
@@ -24124,6 +24122,142 @@
 	  };
 	};
 
+
+/***/ },
+/* 209 */
+/*!******************************************!*\
+  !*** ./app/components/children/Saved.js ***!
+  \******************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _Helpers = __webpack_require__(/*! ../utils/Helpers */ 183);
+	
+	var _Helpers2 = _interopRequireDefault(_Helpers);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //import react 
+	
+	
+	// Import sub-components
+	
+	
+	//define class
+	var Results = function (_React$Component) {
+	  _inherits(Results, _React$Component);
+	
+	  function Results(props) {
+	    _classCallCheck(this, Results);
+	
+	    var _this = _possibleConstructorReturn(this, (Results.__proto__ || Object.getPrototypeOf(Results)).call(this, props));
+	
+	    _this.state = {
+	      saved: []
+	    }, _this.handleChange = _this.handleChange.bind(_this);
+	    _this.componentDidMount = _this.componentDidMount.bind(_this);
+	    return _this;
+	  }
+	
+	  // The moment the page renders get the History
+	
+	
+	  _createClass(Results, [{
+	    key: "componentDidMount",
+	    value: function componentDidMount() {
+	      var that = this;
+	      // Get the latest history.
+	      _Helpers2.default.getSaved().then(function (response) {
+	        console.log(response);
+	        that.setState({ saved: response.data });
+	      });
+	    }
+	  }, {
+	    key: "handleChange",
+	    value: function handleChange(event) {
+	      console.log("handle Change");
+	      console.log(event.target.id);
+	      var idToDelete = event.target.id;
+	      // console.log(JSON.stringify(this.props.results[idToSave]));
+	      // var topic = this.props.results[idToSave].headline.main;
+	      // var url = this.props.results[idToSave].web_url;
+	      // var pub_date = this.props.results[idToSave].pub_date;
+	      // console.log("Topic: " +topic + "url"+ url +"   " +pub_date )
+	
+	      _Helpers2.default.deleteFromDatabase(idToDelete).then(function () {
+	        console.log(data);
+	      });
+	      //this.props.updateDataBase(idToSave)
+	    }
+	  }, {
+	    key: "render",
+	    value: function render() {
+	      var that = this;
+	      return _react2.default.createElement(
+	        "div",
+	        { className: "panel panel-default" },
+	        _react2.default.createElement(
+	          "div",
+	          { className: "panel-heading" },
+	          _react2.default.createElement(
+	            "h3",
+	            { className: "panel-title text-center" },
+	            "Search History"
+	          )
+	        ),
+	        _react2.default.createElement(
+	          "div",
+	          { className: "panel-body text-center" },
+	          this.state.saved.map(function (search, i) {
+	            return _react2.default.createElement(
+	              "p",
+	              { key: i },
+	              " ",
+	              search.url,
+	              _react2.default.createElement("br", null),
+	              " ",
+	              search.topic,
+	              _react2.default.createElement("br", null),
+	              " ",
+	              search.pub_date,
+	              _react2.default.createElement(
+	                "button",
+	                {
+	                  className: "btn btn-primary", type: "submit", id: search._id,
+	                  onClick: that.handleChange },
+	                "Delete"
+	              )
+	            );
+	          })
+	        )
+	      );
+	    } //render
+	
+	  }]);
+	
+	  return Results;
+	}(_react2.default.Component); //React.Component
+	
+	
+	// Export the componen back for use in other files
+	
+	
+	exports.default = Results;
 
 /***/ }
 /******/ ]);
