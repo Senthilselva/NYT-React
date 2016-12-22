@@ -2,8 +2,7 @@
 A single page application
 Used NodeJS, Express, React and Mongoose- Also makes REST-API calls to New York Times API upon request.
 
-## Functionality
-This APP
+## Functionality-This App
 	1. Lets the user enter a Search Term
 	2. Makes an api call to NY Times
 	3. Display Title,url and publication date of 5 of the results that came back
