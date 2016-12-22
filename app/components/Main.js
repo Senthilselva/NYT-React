@@ -31,9 +31,18 @@ constructor(props) {
  render() {
     return (
       <div>
-      	<Header />
-      	<Search databaseChanged = {this.databaseChanged}/>
-      	<Saved isDatabaseChanged ={this.state.isDatabaseChanged}/>
+        <div> 
+          <Header />
+        </div>
+        <div className="row">
+          <div className = "col-md-2"></div>
+          <div className = "col-md-8">
+            <Search databaseChanged = {this.databaseChanged}/>
+          
+            <Saved isDatabaseChanged ={this.state.isDatabaseChanged}/>
+          </div>
+          
+        </div>  
       </div>
     );
   }
