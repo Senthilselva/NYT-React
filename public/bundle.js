@@ -20391,12 +20391,16 @@
 					{ "class": "jumbotron" },
 					_react2.default.createElement(
 						"h1",
-						{ "class": "text-center" },
+						null,
 						_react2.default.createElement(
-							"strong",
+							"center",
 							null,
-							_react2.default.createElement("i", { "class": "fa fa-newspaper-o" }),
-							" New York Times Search"
+							_react2.default.createElement(
+								"strong",
+								null,
+								_react2.default.createElement("i", { className: "fa fa-newspaper-o" }),
+								" New York Times Search"
+							)
 						)
 					)
 				);

@@ -12,7 +12,6 @@ var router  = express.Router();
 
 router.get('/',function(req,res){
 	 // Grab every doc in the Articles array
-	 // console.log("QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ")
   Article.find({}).limit(5).exec(function(err, doc) {
     // Log any errors
     if (err) {
@@ -38,7 +37,7 @@ router.post("/", function(req, res) {
 	newNews.pub_date= req.body.pub_date;
   var entry = new Article(newNews);
   
-  // entry.save({}, function(err,data) {
+ 
    Article.create(newNews, function(err,data) {
     if (err) {
       console.log(err);
